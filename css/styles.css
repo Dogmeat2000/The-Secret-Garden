@@ -5,48 +5,52 @@ body {
 
 
 #butterfly {
-    height: 200px;
+    height: 180px;
     width: auto;
     position: absolute;
 }
 
 #wateringcan {
-    width: 200px;
     position: fixed;
+    height: 125px;
+    width: auto;
     bottom: 20%;
     left: 40%;
 }
 
 
 .waterdrop {
-    width: 20px;
+    height:10px;
+    width: auto;
 	position: absolute;
 }
 
 #net {
-    height: 600px;
+    height: 480px;
     width: auto;
     position: absolute;
 
 }
 
 .apple {
-    height: 50px;
+    height: 45px;
     width: auto;
     position: absolute;
 }
 
 #tree {
     position: fixed;
-    bottom: 20px;
+    width:auto;
+    height:90%;
+    bottom: 18px;
     left: 50%;
 
 }
 
 .basket {
-    width: 200px;
+    width: 180px;
     position: fixed;
-    bottom: 20px;
+    bottom: 18px;
     left: 20%;
 
 }

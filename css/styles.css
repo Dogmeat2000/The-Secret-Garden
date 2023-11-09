@@ -54,7 +54,7 @@ body {
 
 body {
     margin: 0px;
-    background-image: url("../images/grass.png");
+    background-image: url("../images/grass.webp");
     background-attachment: fixed;
     background-repeat: repeat-x;
     background-position: bottom;

@@ -3,6 +3,7 @@
 //Butterfly functionality:
 let stopButterflyAnimation = false;
 let butterflyPanicEscape = false;
+let butterflyRotated = false;
 setButterflyInitialPosition();
 //$("body").on("mousemove", butterFlyRandomSlowMove);
 $("#butterfly").mouseenter(stop_ButterflyAnimation);
@@ -50,14 +51,48 @@ function butterFlyRandomSlowMove()
     console.log("Running loop 'Butterfly Random Slow movement'");
     if(!stopButterflyAnimation)
     {
-    //Define the area of the screen, where the butterfly can fly around in.
-    let windowHeight = 100+$(window).height()-200;
-    let windowWidth = 100+$(window).width()-200;
+        //Define the area of the screen, where the butterfly can fly around in.
+        let windowHeight = 100+$(window).height()-200;
+        let windowWidth = 100+$(window).width()-200;
 
-    let xPos = getRandomInt(windowWidth);
-    let yPos = getRandomInt(windowHeight);
+        let xPos = getRandomInt(windowWidth);
+        let yPos = getRandomInt(windowHeight);
 
-    $("#butterfly").animate({top: yPos, left: xPos}, 4000);
+        let randomHeight = "" + (10+(getRandomInt(10))) + "%";
+        let randomRotation = 100-(getRandomInt(200));
+
+        $("#butterfly").animate({top: yPos, left: xPos}, 4000);
+        $("#butterfly").animate({height: randomHeight}, {queue: false,duration: 4000});
+        if(butterflyRotated)
+        {
+            $("#butterfly").animate(
+                { deg: randomRotation },
+                {
+                  queue: false,
+                  duration: 5000,
+                  step: function(now) {
+                    $(this).css({ transform: 'rotate(' + now + 'deg)' });
+                  }
+                }
+              );
+
+              butterflyRotated = true;
+        }
+        else
+        {
+            $("#butterfly").animate(
+                { deg: randomRotation },
+                {
+                  queue: false,
+                  duration: 5000,
+                  step: function(now) {
+                    $(this).css({ transform: 'rotate(' + now + 'deg)' });
+                  }
+                }
+              );
+            butterflyRotated = false;
+        }
+        resetButterflyColors();
     }
 
     setTimeout(butterFlyRandomSlowMove, 4000);
@@ -68,13 +103,65 @@ function butterFlyFastEscape()
     if(butterflyPanicEscape)
     {
         console.log("Butterfly is in panic!!!!");
-        let windowHeight = $(window).height()-800;
-        let windowWidth = $(window).width()-800;
-    
-        let xPos = getRandomInt(windowWidth);
+        let mouseXpos = event.pageX;
+        let mouseYpos = event.pageY;
+        let windowHeight = $(window).height()-400;
+        let windowWidth = $(window).width()-400;
+        let xPos = 0;
         let yPos = getRandomInt(windowHeight);
+
+        if(mouseXpos > windowWidth/2)
+        {
+            xPos = getRandomInt(windowWidth/2);
+        }
+        else
+        {
+            xPos = (windowWidth/2 + getRandomInt(windowWidth/2));
+        }
+
+        let randomRotation = 100-(getRandomInt(200));
+        let randomHeight = "" + (5+(getRandomInt(15))) + "%";
         
-        $("#butterfly").animate({top: yPos, left: xPos}, 200);
+        $("#butterfly").animate({top: yPos, left: xPos}, 300);
+        $("#butterfly").animate({height: randomHeight}, {queue: false,duration: 200});
+
+        let invertString = "invert(" + (50+getRandomInt(50)) + "%) ";
+        let sepiaString = "sepia(" + (20+getRandomInt(15)) + "%) ";
+        let saturateString = "saturate(" + (500+getRandomInt(250)) + "%) ";
+        let huerotateString = "hue-rotate(" + (250+getRandomInt(90)) + "deg) ";
+        let contrastString = "contrast(" + (75+getRandomInt(75)) + "%) ";
+
+        $("#butterfly").css({"filter": invertString + sepiaString + saturateString + huerotateString + contrastString});
+
+        if(butterflyRotated)
+        {
+            $("#butterfly").animate(
+                { deg: randomRotation },
+                {
+                  queue: false,
+                  duration: 200,
+                  step: function(now) {
+                    $(this).css({ transform: 'rotate(' + now + 'deg)' });
+                  }
+                }
+              );
+
+              butterflyRotated = true;
+        }
+        else
+        {
+            $("#butterfly").animate(
+                { deg: randomRotation },
+                {
+                  queue: false,
+                  duration: 200,
+                  step: function(now) {
+                    $(this).css({ transform: 'rotate(' + now + 'deg)' });
+                  }
+                }
+              );
+            butterflyRotated = false;
+        }
     }
 }
 
@@ -84,24 +171,15 @@ function stop_ButterflyAnimation()
     $("#butterfly").stop(true);
     stopButterflyAnimation = true;
     butterflyPanicEscape = true;
-    butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape().butterFlyFastEscape();
-    /*butterFlyFastEscape().;
-    setTimeout(butterFlyFastEscape, 400);
-    setTimeout(butterFlyFastEscape, 600);
-    setTimeout(butterFlyFastEscape, 800);
-    setTimeout(butterFlyFastEscape, 1000);
-    setTimeout(butterFlyFastEscape, 1200);
-    setTimeout(butterFlyFastEscape, 1400);
-    setTimeout(butterFlyFastEscape, 1600);
-    setTimeout(butterFlyFastEscape, 1800);
-    setTimeout(butterFlyFastEscape, 2000);*/
-    stopButterflyAnimation = false;
-    butterflyPanicEscape = false;
+    $.when(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape());
+    setTimeout(butterflyPanicEscape = false, 2000);
+    setTimeout(stopButterflyAnimation = false, 2000);
 }
 
-/*function start_ButterflyAnimation()
+function resetButterflyColors()
 {
-    stopButterflyAnimation = false;
-    butterFlyRandomSlowMove();
-}*/
+    $("#butterfly").css({"filter": "invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%)"});
+}
 
+
+//Butterfly functionality ends here!

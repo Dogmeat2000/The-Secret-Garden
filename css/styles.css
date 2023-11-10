@@ -64,3 +64,12 @@ body {
     background-position: bottom;
     overflow: hidden;
 }
+
+/*Added for butterfly functionality:*/
+.rotate_left {
+    transform: rotate(20deg); /* Equal to rotateZ(45deg) */
+}
+
+.rotate_right {
+    transform: rotate(-20deg); /* Equal to rotateZ(45deg) */
+}

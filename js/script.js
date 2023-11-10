@@ -5,7 +5,6 @@ let stopButterflyAnimation = false;
 let butterflyPanicEscape = false;
 let butterflyRotated = false;
 setButterflyInitialPosition();
-//$("body").on("mousemove", butterFlyRandomSlowMove);
 $("#butterfly").mouseenter(stop_ButterflyAnimation);
 
 //Butterfly functions:

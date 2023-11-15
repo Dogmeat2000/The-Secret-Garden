@@ -182,3 +182,107 @@ function resetButterflyColors()
 
 
 //Butterfly functionality ends here!
+
+
+//<Apple functions begin here
+let treeWidth = $("#tree").width();
+let treeHeight = $("#tree").height();
+let bodyWidth = $("#body").width();
+let bodyHeight = $("#body").height();
+// a function which finds a random position for the apples.
+function getRandomPosition() {
+  let randomX = 0.5 * bodyWidth + Math.floor(Math.random() * (treeWidth - 100)); // +50% to make it begin on the trees leafes. Adjust 100 so that it stays on the tree
+  let randomY = 0.35 * treeHeight + Math.floor(Math.random() * (treeHeight - 280)); // +35% to make it begin on the trees leafes. Adjust 280 so that it stays on the tree
+
+  return { left: randomX, bottom: randomY };
+}
+
+function moveToBasket(element, leftPosition, bottomPosition) {
+  element.animate({
+    left: leftPosition,
+    bottom: topPosition
+  }, 1000)
+}
+
+  let randomPosition1 = getRandomPosition();
+  let randomPosition2 = getRandomPosition();
+  let randomPosition3 = getRandomPosition();
+  $("#apple1").css(randomPosition1);
+  $("#apple2").css(randomPosition2);
+  $("#apple3").css(randomPosition3); 
+
+  $("#apple1").hover(
+    function()
+    {
+      $("#apple1").animate({
+        height: 0.07 * bodyHeight
+      }, 500);
+    },
+    function()
+    {
+      $("#apple1").animate({
+        height: 0.06 * bodyHeight
+      }, 500);
+    }
+  )
+
+  $("#apple1").click(function()
+  {
+    $("#apple1").animate({
+      left: 0.55 * bodyWidth,
+      bottom: 0.05 * bodyHeight
+    }, 1000)
+  });
+
+  $("#apple2").hover(
+    function()
+    {
+      $("#apple2").animate({
+        height: 0.07 * bodyHeight
+      }, 500);
+    },
+    function()
+    {
+      $("#apple2").animate({
+        height: 0.06 * bodyHeight
+      }, 500);
+    }
+  )
+
+  $("#apple2").click(function()
+  {
+    $("#apple2").animate({
+      left: 0.55 * bodyWidth,
+      bottom: 0.05 * bodyHeight
+    }, 1000)
+  });
+
+  $("#apple3").hover(
+    function()
+    {
+      $("#apple3").animate({
+        height: 0.07 * bodyHeight
+      }, 500);
+    },
+    function()
+    {
+      $("#apple3").animate({
+        height: 0.06 * bodyHeight
+      }, 500);
+    }
+  )
+
+  $("#apple3").click(function()
+  {
+    $("#apple3").animate({
+      left: 0.55 * bodyWidth,
+      bottom: 0.05 * bodyHeight
+    }, 1000)
+  });
+
+
+
+
+
+ 
+

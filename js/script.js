@@ -280,6 +280,44 @@ function moveToBasket(element, leftPosition, bottomPosition) {
     }, 1000)
   });
 
+  //Apple functions ends here!!
+
+
+  
+  // Making the net follow the curser - Zakaria:
+
+$(document).mousemove(function (e) {
+
+  var mouseX = e.pageX;
+
+  var windowWidth = $(window).width();
+
+  $('#net').offset({
+      left: e.pageX,
+      top: e.pageY 
+  });
+
+});
+
+// Extra feature Zakaria (adding background coulour to the net)
+
+$(document).ready(function () {
+  function getRandomColor() {
+      var red = Math.floor(Math.random() * 256);
+      var green = Math.floor(Math.random() * 256);
+      var blue = Math.floor(Math.random() * 256);
+      return 'rgb(' + red + ',' + green + ',' + blue + ')';
+  }
+
+  function updateColor() {
+      $('#net').css({
+          backgroundColor: getRandomColor(),
+      });
+  }
+
+  setInterval(updateColor, 400);
+});
+
 
 
 

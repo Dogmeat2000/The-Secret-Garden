@@ -212,11 +212,11 @@ let apple2Clicked = false;
 let apple3Clicked = false;
 // a function which finds a random position for the apples.
 let randomXnum1 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
-let randomYnum1 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
+let randomYnum1 = 150 + Math.floor(Math.random() * (250)); //Adjust 250 so that it stays on the tree
 let randomXnum2 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
-let randomYnum2 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
+let randomYnum2 = 150 + Math.floor(Math.random() * (250)); //Adjust 250 so that it stays on the tree
 let randomXnum3 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
-let randomYnum3 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
+let randomYnum3 = 150 + Math.floor(Math.random() * (250)); //Adjust 250 so that it stays on the tree
 
 
 function getRandomPosition1() {
@@ -428,6 +428,140 @@ setInterval(updateColor2, 400);
 
 
 //Here the watercan and waterdrop implemention BEGINS:
+// Function to animate water drops falling from the watering can in a straight line
+function movewaterdrop() {
+  const initialTop = parseFloat($('#wateringcan').css('top')) + parseFloat($('#wateringcan').css('height'));
+  const initialLeft = parseFloat($('#wateringcan').css('left'));
 
+  const finalTop = $(window).height();
 
+  // Set initial positions of water drops
+  $("#waterDrop1").css({ top: initialTop + 'px', left: (initialLeft+50) + 'px' });
+  $("#waterDrop2").css({ top: initialTop + 'px', left: (initialLeft+40) + 'px' });
+  $("#waterDrop3").css({ top: initialTop + 'px', left: (initialLeft+50) + 'px' });
+
+  // Animate water drops to fall straight down
+  $("#waterDrop1").animate({ top: finalTop + 'px' }, 980, movewaterdrop);
+  $("#waterDrop2").animate({ top: finalTop + 'px' }, 960, movewaterdrop);
+  $("#waterDrop3").animate({ top: finalTop + 'px' }, 940, movewaterdrop);
+}
+
+// Main document ready function
+$(document).ready(function () {
+  // Selecting elements
+  const wateringCan = $('#wateringcan');
+  const waterDrop1 = $('#waterDrop1');
+  const waterDrop2 = $('#waterDrop2');
+  const waterDrop3 = $('#waterDrop3');
+
+  // Initial water drop animation
+  setInterval(movewaterdrop(), 250);
+
+  // Variables for watering can tilt
+  let isTilted = false;
+  let tiltAngle = -90;
+
+  // Initial update of watering can
+  updateWateringCan();
+
+  // Event listener for tilting the watering can on mousedown
+  wateringCan.mousedown(function (event) {
+      isTilted = !isTilted;
+      updateWateringCan();
+  });
+
+  // Function to update watering can tilt and show/hide water drops
+  function updateWateringCan() {
+      if (isTilted) {
+          wateringCan.css('transform', 'rotate(' + tiltAngle + 'deg)');
+          showWaterDrops();
+      } else {
+          wateringCan.css('transform', 'rotate(0deg)');
+          hideWaterDrops();
+      }
+  }
+
+  // Function to show water drops and initiate their animation
+  function showWaterDrops() {
+      waterDrop1.show();
+      waterDrop2.show();
+      waterDrop3.show();
+      animateWaterDrops();
+  }
+
+  // Function to hide water drops
+  function hideWaterDrops() {
+      waterDrop1.hide();
+      waterDrop2.hide();
+      waterDrop3.hide();
+  }
+
+  // Function to set initial positions of water drops and initiate their animation
+  function animateWaterDrops() {
+          const waterDrop1 = $(this);
+          const waterDrop2 = $(this);
+          const waterDrop3 = $(this);
+          const initialTop = parseFloat(wateringCan.css('top')) + wateringCan.height();
+          const initialLeft = parseFloat(wateringCan.css('left'));
+
+          waterDrop1.css({
+              top: initialTop + 'px',
+              left: initialLeft + 'px',
+          });
+
+          waterDrop2.css({
+              top: initialTop + 'px',
+              left: initialLeft + 'px',
+          });
+
+          waterDrop3.css({
+              top: initialTop + 'px',
+              left: initialLeft + 'px',
+          });
+
+      
+  }
+
+   // Extra funtionality: Movement of watering can
+   let isDragging = false;
+
+   //Change mouse to a pointer when hovering over the can:
+   $("#wateringcan").mouseenter(function(){
+     $("#wateringcan").css({ cursor: 'grab'});
+   });
+
+   // Event listener for starting dragging on mousedown
+   $("#wateringcan").dblclick(function(){
+     if(isDragging === true)
+     {
+       isDragging = false;
+     }
+     else
+     {
+       isDragging = true;
+     };
+   });
+
+   // Event listener for updating watering can position during dragging
+   $(document).mousemove(function (event) {
+       if (isDragging) {
+           const mouseX = event.clientX;
+           const mouseY = event.clientY;
+
+           const canRect = $("#wateringcan")[0].getBoundingClientRect();
+
+           const newLeft = mouseX - canRect.width / 8;
+           const newTop = mouseY - canRect.height / 8;
+
+           $("#wateringcan").css({
+               left: newLeft + 'px',
+               top: newTop + 'px',
+           });
+
+           setInterval(updateWateringCan(),250);
+       }
+   });
+
+})
+  
 //Here the watercan and waterdrop implemention ENDS

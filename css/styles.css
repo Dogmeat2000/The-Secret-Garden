@@ -14,8 +14,8 @@ body {
     position: fixed;
     height: 17.5%;
     width: auto;
-    bottom: 20%;
-    left: 40%;
+    bottom: 6%;
+    left: 20%;
 }
 
 
@@ -35,7 +35,7 @@ body {
 .apple {
     height: 6%;
     width: auto;
-    position: absolute;
+    position: fixed;
     cursor: pointer;
     z-index: 1;
 }

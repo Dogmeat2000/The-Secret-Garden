@@ -36,6 +36,7 @@ body {
     height: 6%;
     width: auto;
     position: absolute;
+    z-index: 3;
 }
 
 #tree {
@@ -54,7 +55,10 @@ body {
     bottom: 15px;
     left: 50%;
     z-index: 2;
+}
 
+.basketFront {
+    z-index: 4;
 }
 
 body {

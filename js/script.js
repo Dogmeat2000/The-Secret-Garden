@@ -325,20 +325,20 @@ function getRandomPosition3() {
       $("#apple1").css({left: 0.55 * bodyWidth,
         bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
     } else {
-      $("#apple1").css(getRandomPosition1());
+      $("#apple1").css(getRandomPosition1(), {height: 0.06 * bodyHeight});
       };
     
     if (apple2Clicked == true) {
       $("#apple2").css({left: 0.53 * bodyWidth,
         bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
     } else {
-      $("#apple2").css(getRandomPosition2());
+      $("#apple2").css(getRandomPosition2(), {height: 0.06 * bodyHeight});
     }
     if (apple3Clicked == true) {
       $("#apple3").css({left: 0.51 * bodyWidth,
         bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
     } else {
-      $("#apple3").css(getRandomPosition3());
+      $("#apple3").css(getRandomPosition3(), {height: 0.06 * bodyHeight});
     }
   });
 

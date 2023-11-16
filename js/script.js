@@ -222,29 +222,44 @@ function resetButterflyColors()
 //<Apple functions begin here
 let treeWidth = $("#tree").width();
 let treeHeight = $("#tree").height();
-let bodyWidth = $("#body").width();
-let bodyHeight = $("#body").height();
+let bodyWidth = $(window).width();
+let bodyHeight = $(window).height();
+let apple1Clicked = false;
+let apple2Clicked = false;
+let apple3Clicked = false;
 // a function which finds a random position for the apples.
-function getRandomPosition() {
-  let randomX = 0.5 * bodyWidth + Math.floor(Math.random() * (treeWidth - 100)); // +50% to make it begin on the trees leafes. Adjust 100 so that it stays on the tree
-  let randomY = 0.35 * treeHeight + Math.floor(Math.random() * (treeHeight - 280)); // +35% to make it begin on the trees leafes. Adjust 280 so that it stays on the tree
+let randomXnum1 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
+let randomYnum1 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
+let randomXnum2 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
+let randomYnum2 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
+let randomXnum3 = Math.floor(Math.random() * (treeWidth - 100)); //Adjust 100 so that it stays on the tree
+let randomYnum3 = Math.floor(Math.random() * (treeHeight - 280)); //Adjust 280 so that it stays on the tree
 
-  return { left: randomX, bottom: randomY };
+
+function getRandomPosition1() {
+  let randomX1 = 0.5 * bodyWidth + randomXnum1; // +50% to make it begin on the trees leafes. Adjust 100 so that it stays on the tree
+  let randomY1 = 0.35 * treeHeight + randomYnum1; // +35% to make it begin on the trees leafes. Adjust 280 so that it stays on the tree
+
+  return { left: randomX1, bottom: randomY1 };
 }
 
-function moveToBasket(element, leftPosition, bottomPosition) {
-  element.animate({
-    left: leftPosition,
-    bottom: topPosition
-  }, 1000)
+function getRandomPosition2() {
+  let randomX2 = 0.5 * bodyWidth + randomXnum2; // +50% to make it begin on the trees leafes. Adjust 100 so that it stays on the tree
+  let randomY2 = 0.35 * treeHeight + randomYnum2; // +35% to make it begin on the trees leafes. Adjust 280 so that it stays on the tree
+
+  return { left: randomX2, bottom: randomY2 };
 }
 
-  let randomPosition1 = getRandomPosition();
-  let randomPosition2 = getRandomPosition();
-  let randomPosition3 = getRandomPosition();
-  $("#apple1").css(randomPosition1);
-  $("#apple2").css(randomPosition2);
-  $("#apple3").css(randomPosition3); 
+function getRandomPosition3() {
+  let randomX3 = 0.5 * bodyWidth + randomXnum3; // +50% to make it begin on the trees leafes. Adjust 100 so that it stays on the tree
+  let randomY3 = 0.35 * treeHeight + randomYnum3; // +35% to make it begin on the trees leafes. Adjust 280 so that it stays on the tree
+
+  return { left: randomX3, bottom: randomY3 };
+}
+
+  $("#apple1").css(getRandomPosition1());
+  $("#apple2").css(getRandomPosition2());
+  $("#apple3").css(getRandomPosition3()); 
 
   $("#apple1").hover(
     function()
@@ -263,9 +278,10 @@ function moveToBasket(element, leftPosition, bottomPosition) {
 
   $("#apple1").click(function()
   {
+    apple1Clicked = true;
     $("#apple1").animate({
       left: 0.55 * bodyWidth,
-      bottom: 0.05 * bodyHeight
+      bottom: 0.08 * bodyHeight
     }, 1000)
   });
 
@@ -286,9 +302,10 @@ function moveToBasket(element, leftPosition, bottomPosition) {
 
   $("#apple2").click(function()
   {
+    apple2Clicked = true;
     $("#apple2").animate({
-      left: 0.55 * bodyWidth,
-      bottom: 0.05 * bodyHeight
+      left: 0.53 * bodyWidth,
+      bottom: 0.08 * bodyHeight
     }, 1000)
   });
 
@@ -309,10 +326,37 @@ function moveToBasket(element, leftPosition, bottomPosition) {
 
   $("#apple3").click(function()
   {
+    apple3Clicked = true;
     $("#apple3").animate({
-      left: 0.55 * bodyWidth,
-      bottom: 0.05 * bodyHeight
+      left: 0.51 * bodyWidth,
+      bottom: 0.08 * bodyHeight
     }, 1000)
+  });
+
+  $(window).resize(function() {
+    treeWidth = $("#tree").width();
+    treeHeight = $("#tree").height();
+    bodyWidth = $(window).width();
+    bodyHeight = $(window).height();
+    if (apple1Clicked == true) {
+      $("#apple1").css({left: 0.55 * bodyWidth,
+        bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
+    } else {
+      $("#apple1").css(getRandomPosition1());
+      };
+    
+    if (apple2Clicked == true) {
+      $("#apple2").css({left: 0.53 * bodyWidth,
+        bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
+    } else {
+      $("#apple2").css(getRandomPosition2());
+    }
+    if (apple3Clicked == true) {
+      $("#apple3").css({left: 0.51 * bodyWidth,
+        bottom: 0.08 * bodyHeight, height: 0.06 * bodyHeight})
+    } else {
+      $("#apple3").css(getRandomPosition3());
+    }
   });
 
   //Apple functions ends here!!

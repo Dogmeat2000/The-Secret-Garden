@@ -36,6 +36,8 @@ body {
     height: 6%;
     width: auto;
     position: absolute;
+    cursor: pointer;
+    z-index: 1;
 }
 
 #tree {
@@ -53,8 +55,10 @@ body {
     position: fixed;
     bottom: 15px;
     left: 50%;
+    z-index: 0;
+}
+#basketfront {
     z-index: 2;
-
 }
 
 body {

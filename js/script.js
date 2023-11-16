@@ -1,6 +1,7 @@
 //MAKE THE MAGIC HAPPEN
 
-//Butterfly functionality:
+//Butterfly functionality attributes:
+//Butterfly functions are implemented by Kristian Dashnaw
 let stopButterflyAnimation = false;
 let butterflyPanicEscape = false;
 let butterflyRotated = false;
@@ -8,10 +9,16 @@ setButterflyInitialPosition();
 $("#butterfly").mouseenter(stop_ButterflyAnimation);
 
 //Butterfly functions:
+
+//The getRandomInt function is used for several randomization calls further down in the code. It adds a element of non-repetitiveness to the implementation.
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
+//This method is used for setting the butterflies iniatial spawn position to outside the window.
+//We perform a number of operations to ensure that the "vector of attack" for the butterfly is always changing. 
+//This means that it will enter the screen at different points on every webpage load.
+//This approach was decided since it is more "beautiful" to have the butterfly not simple spawn the same place in the viewable window.
 function setButterflyInitialPosition()
 {
     //Get a random location outside of the window area. Limits are that the butterfly can not enter the screen from the ground.
@@ -38,16 +45,20 @@ function setButterflyInitialPosition()
     butterFlyEnterScreen(xPos, yPos);
 }
 
+//This function animates the butterfly movement from the offscreen position, and onto the viewable area.
 function butterFlyEnterScreen(xPos, yPos)
 {
     $("#butterfly").animate({top: yPos, left: xPos}, 2000);
     butterFlyRandomSlowMove();
 }
 
-
+//This function applies the "all-ways running" butterfly movement functionality.
+//Basically we here ensure that the butterfly is always moving in a slow peaceful speed, while not being chased by the mouse/net.
 function butterFlyRandomSlowMove()
 {
     console.log("Running loop 'Butterfly Random Slow movement'");
+
+    //We insert a stop, to ensure that this function call does not conflict with the later implemented "panic movement mode".
     if(!stopButterflyAnimation)
     {
         //Define the area of the screen, where the butterfly can fly around in.
@@ -60,8 +71,13 @@ function butterFlyRandomSlowMove()
         let randomHeight = "" + (10+(getRandomInt(10))) + "%";
         let randomRotation = 100-(getRandomInt(200));
 
+        //Animate the butterfly movement to the new position:
         $("#butterfly").animate({top: yPos, left: xPos}, 4000);
+
+        //Make the butterfly larger/smaller on each call, to imitate a 3D perspective (butterfly getting closer, og further away):
         $("#butterfly").animate({height: randomHeight}, {queue: false,duration: 4000});
+
+        //Make the butterfly sway from side to side, imitating a butterfly that is not just a static image (although it is):
         if(butterflyRotated)
         {
             $("#butterfly").animate(
@@ -94,9 +110,14 @@ function butterFlyRandomSlowMove()
         resetButterflyColors();
     }
 
+    //This timeout is critical for proper system operation. 
+    //If it was not included, this script would run continously forever as fast as possible, which is not performance friendly.
     setTimeout(butterFlyRandomSlowMove, 4000);
 }
 
+
+//This function animates the "panic movement mode" for the butterfly. 
+//Basically it speeds up the butterfly, and ensures that it moves to a part of the screen, where the mouse is not.
 function butterFlyFastEscape() 
 {
     if(butterflyPanicEscape)
@@ -109,6 +130,7 @@ function butterFlyFastEscape()
         let xPos = 0;
         let yPos = getRandomInt(windowHeight);
 
+        //Check which half of the screen, the mouse is inside. Ensure that the butterfly moves to the opposite side.
         if(mouseXpos > windowWidth/2)
         {
             xPos = getRandomInt(windowWidth/2);
@@ -117,13 +139,17 @@ function butterFlyFastEscape()
         {
             xPos = (windowWidth/2 + getRandomInt(windowWidth/2));
         }
+        
+        //Animate the butterfly movement to the new position:
+        $("#butterfly").animate({top: yPos, left: xPos}, 300);
 
-        let randomRotation = 100-(getRandomInt(200));
+        //Make the butterfly larger/smaller on each call, to imitate a 3D perspective (butterfly getting closer, og further away):
         let randomHeight = "" + (5+(getRandomInt(15))) + "%";
         
-        $("#butterfly").animate({top: yPos, left: xPos}, 300);
         $("#butterfly").animate({height: randomHeight}, {queue: false,duration: 200});
 
+
+        //Make the butterfly change colors to something random, to visualize this state of panic!:
         let invertString = "invert(" + (50+getRandomInt(50)) + "%) ";
         let sepiaString = "sepia(" + (20+getRandomInt(15)) + "%) ";
         let saturateString = "saturate(" + (500+getRandomInt(250)) + "%) ";
@@ -132,6 +158,9 @@ function butterFlyFastEscape()
 
         $("#butterfly").css({"filter": invertString + sepiaString + saturateString + huerotateString + contrastString});
 
+        let randomRotation = 100-(getRandomInt(200));
+
+        //Make the butterfly sway from side to side, imitating a butterfly that is not just a static image (although it is):
         if(butterflyRotated)
         {
             $("#butterfly").animate(
@@ -164,23 +193,29 @@ function butterFlyFastEscape()
     }
 }
 
+//This function ensures that all active animations on the butterfly are stopped, once called.
+//It then calls the animations relating to the panic mode for at few iterations, and cancels this again once the butterfly has escaped.
 function stop_ButterflyAnimation()
 {
     console.log("Stopping all butterfly animations, and executing panic mode!");
     $("#butterfly").stop(true);
     stopButterflyAnimation = true;
     butterflyPanicEscape = true;
+    
+    //Here we perform a method chaining, to ensure that the fast panic movements are called AFTER each other, and not on top of each other.
     $.when(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape()).then(butterFlyFastEscape());
+    
+    //Cancels panic mode after 2 seconds.
     setTimeout(butterflyPanicEscape = false, 2000);
     setTimeout(stopButterflyAnimation = false, 2000);
 }
 
+//This function is used to reset the butterfly to its original colors after Panic Mode has been executed.
 function resetButterflyColors()
 {
     $("#butterfly").css({"filter": "invert(0%) sepia(0%) saturate(100%) hue-rotate(0deg) brightness(100%) contrast(100%)"});
 }
-
-
+//Kristian's implementation ends here.
 //Butterfly functionality ends here!
 
 
@@ -286,37 +321,90 @@ function moveToBasket(element, leftPosition, bottomPosition) {
   
   // Making the net follow the curser - Zakaria:
 
+// Making the net follow the curser - Zakaria:
+
 $(document).mousemove(function (e) {
 
   var mouseX = e.pageX;
 
   var windowWidth = $(window).width();
 
-  $('#net').offset({
+  if(netPointingRight)
+  {
+    $('#net').offset({
+      left: (e.pageX-150),
+      top: e.pageY 
+  });
+  }
+  else
+  {
+    $('#net').offset({
       left: e.pageX,
       top: e.pageY 
   });
+  }
+
 
 });
 
-// Extra feature Zakaria (adding background coulour to the net)
 
-$(document).ready(function () {
-  function getRandomColor() {
-      var red = Math.floor(Math.random() * 256);
-      var green = Math.floor(Math.random() * 256);
-      var blue = Math.floor(Math.random() * 256);
-      return 'rgb(' + red + ',' + green + ',' + blue + ')';
-  }
+let globalMousePosX_0 = 0;
+let netPointingRight = false;
 
-  function updateColor() {
-      $('#net').css({
-          backgroundColor: getRandomColor(),
-      });
-  }
+$(document).on( "mousemove", function( event ) {
 
-  setInterval(updateColor, 400);
-});
+let currentMousePosX = event.pageX;
+
+if(currentMousePosX > globalMousePosX_0 && (currentMousePosX - globalMousePosX_0 > 100))
+{
+  //mouse moved towards the right.
+  $("#net").css({"transition": "transform 0.5s", "transform-style": "preserve-3d", "transform": "rotateY(180deg)"});
+  netPointingRight = true;
+
+    //update global values for next:
+globalMousePosX_0 = currentMousePosX;
+}
+else if(globalMousePosX_0 > currentMousePosX && (globalMousePosX_0 - currentMousePosX > 100))
+{
+  //mouse moved towards the left.
+  $("#net").css({"transition": "transform 0.5s", "transform-style": "preserve-3d", "transform": "rotateY(0deg)"});
+  netPointingRight = false;
+
+    //update global values for next:
+globalMousePosX_0 = currentMousePosX;
+}
+} );
+//Adding colour to the net
+function updateColor2() 
+{
+console.log("running5");
+
+let randomColor = getRandomInt(5);
+
+if(randomColor === 0)
+{
+  //Cyan disco color:
+  $("#net").css({"filter": "invert(52%) sepia(63%) saturate(1529%) hue-rotate(166deg) brightness(108%) contrast(98%)"});
+}
+else if(randomColor === 1)
+{
+  $("#net").css({"filter": "invert(14%) sepia(95%) saturate(4059%) hue-rotate(276deg) brightness(83%) contrast(93%)"});
+}
+else if(randomColor === 2)
+{
+  $("#net").css({"filter": "invert(100%) sepia(35%) saturate(3551%) hue-rotate(15deg) brightness(94%) contrast(114%)"})
+}
+else if(randomColor === 3)
+{
+  $("#net").css({"filter": "invert(100%) sepia(78%) saturate(1677%) hue-rotate(20deg) brightness(107%) contrast(98%)"})
+}
+else if(randomColor === 4)
+{
+  $("#net").css({"filter": "invert(16%) sepia(13%) saturate(2316%) hue-rotate(162deg) brightness(97%) contrast(90%)"})
+}
+}
+
+setInterval(updateColor2, 400);
 
 
 
